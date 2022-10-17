@@ -1,7 +1,11 @@
+// Promises
 const posts = [
   {title: "Post One", content: "This is first post", createdAt: new Date().getTime()},
   {title: "Post Two", content: "This is second post", createdAt: new Date().getTime()}
 ]
+
+const postThree = {title: "Post Three", content: "This is third post"};
+
 
 // Callback
 function getPost(){
@@ -13,28 +17,6 @@ function getPost(){
       document.body.innerHTML = output;
   }, 1000)
 }
-
-// function createPost(post, callback){
-//     setTimeout(() => {
-//         posts.push({...post, createdAt: new Date().getTime()})
-//         callback();
-//     }, 2000)
-// }
-
-// function create4thPost(callback){
-//     setTimeout(() => {
-//         posts.push({...arguments[3], createdAt: new Date().getTime()});
-//         callback(arguments[1], arguments[2]);
-//     }, 4000)
-// }
-
-postThree = {title: "Post Three", content: "This is third post"};
-// postFour = {title: "Post Four", content: "This is fourth post"};
-
-
-// create4thPost(createPost, postThree, getPost, postFour)
-
-// Promises
 
 function createPost(post){
   return new Promise((resolve, reject) => {
@@ -105,3 +87,38 @@ function updateLastUserActivityTime(){
 //         console.log(values[2]);
 //     })
 //     .catch(err => console.log(err))
+
+// Movie Queue Using Promises
+console.log("person 1: shows ticket");
+console.log("person 2: shows ticket");
+
+const wifeBringTickets = new Promise((resolve, reject) => {
+  setTimeout(() => {
+      console.log("wife: got the ticket");
+      resolve("ticket");
+  }, 3000)
+})
+
+const getPopcorn = wifeBringTickets.then((t) => {
+  console.log("husband: got it, lets go in");
+  console.log("wife: need popcorn");
+  return new Promise((resolve, reject) => resolve(`${t} popcorn`))
+})
+
+const getButter = getPopcorn.then((p) => {
+  console.log("husband: here, lets go");
+  console.log("wife: need butter");
+  return new Promise((resolve, reject) => resolve(`${p} butter`));
+})
+
+const getColdDrink = getButter.then((b) => {
+  console.log("husband: oh lord, take this");
+  console.log("wife: need cold drink too");
+  console.log("husband: god save me from this woman");
+  return new Promise((resolve, reject) => resolve(`${b} cold drinks`))
+})
+
+getColdDrink.then((v) => console.log(v));
+
+console.log("person 4: shows ticket");
+console.log("person 5: shows ticket");
